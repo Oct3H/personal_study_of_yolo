@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+.venv/
+
+# YOLO Output
+runs/
+outputs_/
+
+# Model
+yolo11n.pt
+
+# Test images
+images_/
+
+# macOS
+.DS_Store
+
+# PyCharm
+.idea/
