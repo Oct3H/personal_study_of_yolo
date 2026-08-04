@@ -51,23 +51,69 @@ def play_elephant_sound():
 
 
 
-for pic in results:
-    for item in pic.boxes.cls:
-        if item == CAT:
-            print('cat : miao')
-            play_cat_sound()
-        elif item == DOG:
-            print("dog : wowo")
-            play_dog_sound()
-        elif item == ELEP:
-            print("elephant : emwooo")
-            play_elephant_sound()
-        elif item == SHEEP:
-            print("sheep : meimei")
-            play_sheep_sound()
-        else:
-            print("This item isn`t life")
-        pygame.time.wait(1500)
+# for pic in results:
+#     for item in pic.boxes.cls:
+#         if item == CAT:
+#             print('cat : miao')
+#             play_cat_sound()
+#         elif item == DOG:
+#             print("dog : wowo")
+#             play_dog_sound()
+#         elif item == ELEP:
+#             print("elephant : emwooo")
+#             play_elephant_sound()
+#         elif item == SHEEP:
+#             print("sheep : meimei")
+#             play_sheep_sound()
+#         else:
+#             print("This item isn`t life")
+#         pygame.time.wait(1500)
+
+
+
+import cv2
+path = "*.mp4"
+#返回一个generator类型参数
+def video_get(Path):
+    cap = cv2.VideoCapture(Path)
+    while True:
+        ret,frame = cap.read()
+        if not ret:
+            break
+        yield frame
+    cap.release()
+
+#每一帧都是一个图片识别,一个results里包含多个pic的识别结果
+def FrameProcess(frame):
+    results = model(frame)
+    return results
+
+def DetectFrame(results):
+    for pic in results:
+        for item in pic.boxes.cls:
+            if item == CAT:
+                print('cat : miao')
+                play_cat_sound()
+            elif item == DOG:
+                print("dog : wowo")
+                play_dog_sound()
+            elif item == ELEP:
+                print("elephant : emwooo")
+                play_elephant_sound()
+            elif item == SHEEP:
+                print("sheep : meimei")
+                play_sheep_sound()
+            else:
+                print("This item isn`t life")
+
+
+video_generator = video_get(path)
+frame_id = 0
+for frame in video_generator:
+    frame_id=frame_id+1
+    resu = FrameProcess(frame)
+    DetectFrame(resu)
+
 
 
 
