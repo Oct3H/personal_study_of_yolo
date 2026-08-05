@@ -73,7 +73,7 @@ def play_elephant_sound():
 
 import cv2
 path = "*.mp4"
-#返回一个generator类型参数
+#返回一个generator类型参数Frames = ∑ frame
 def video_get(Path):
     cap = cv2.VideoCapture(Path)
     while True:
@@ -83,7 +83,7 @@ def video_get(Path):
         yield frame
     cap.release()
 
-#每一帧都是一个图片识别,一个results里包含多个pic的识别结果
+#每一帧都是一个图片识别,一个results里包含多个pic的识别结果??不对
 def FrameProcess(frame):
     results = model(frame)
     return results

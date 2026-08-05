@@ -1,7 +1,13 @@
-
+#config可以被所有文件使用，但是其他文件尽量不要“函数交叉”
 '''-------------------yolo----------------------'''
 yolo_model = "yolo11n.pt"
-yolo_source = "images_/"
+yolo_source_pic = "images_/"
+yolo_source_video = "*"
+
+
+
+
+
 
 '''-------------------play----------------------'''
 
