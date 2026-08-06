@@ -1,5 +1,5 @@
 import cv2
-'''-------Read input and  Process it to one by one Frame-------'''
+'''-------Read input and Process it to one by one Frame-------'''
 
 #process the video to many frame(into a Generator)
 #返回一个generator类型参数Frames = ∑ frame

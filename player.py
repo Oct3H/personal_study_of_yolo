@@ -9,10 +9,10 @@ def play_sound(name):
         print(Animal[name]["sound_content"])
         sound = pygame.mixer.Sound(Animal[name]["sound_path"])
         sound.play()
-        pygame.time.wait(1500)
+        # pygame.time.wait(1500)
     else:
         print("sorry,find an unknown item")
-        pygame.time.wait(1500)
+        # pygame.time.wait(1500)
 
 
 
