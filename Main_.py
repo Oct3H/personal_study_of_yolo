@@ -4,7 +4,7 @@ from config import yolo_source_pic,yolo_source_video
 from detector import DetectFrame
 from event import check_event
 from processor import video_process
-
+from visualizer import show_case
 
 '''-------------------------------------------------------------'''
 
@@ -35,9 +35,12 @@ def pic_execute(pic_path):
 def video_execute(video_path):
     video_generator = video_process(video_path)
     frame_id = 0
+    #every frame：
+    # 视频一帧里只有一个图-->results里只有一个results[0]
     for Frame in video_generator:#迭代器内循环
         resu = DetectFrame(Frame)
         frame_id = frame_id + 1
+        show_case(Frame,resu)
         item_name_list = AnalyzeResultsToItemsNamesList(resu)
         for name in item_name_list:
             if check_event(name):
@@ -51,4 +54,6 @@ def video_execute(video_path):
 
 
 #main:
-#video_execute(video_source)
+video_execute(yolo_source_video)
+
+#两个bug：1.不显示可视化框  2.同一个动物重复触发bark（需要利用编号，同一个出现一次只叫一下）

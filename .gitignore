@@ -12,8 +12,12 @@ outputs_/
 # Model
 yolo11n.pt
 
-# Test images
+# Test images and videos
 images_/
+videos_
+
+#sound
+sounds_
 
 # macOS
 .DS_Store
