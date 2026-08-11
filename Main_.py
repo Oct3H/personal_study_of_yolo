@@ -3,7 +3,7 @@ from analyzer import AnalyzeResultsToItemsNamesList_pic,AnalyzeResultsToItemsNam
 from config import yolo_source_pic,yolo_source_video
 from detector import DetectFrame
 from event import check_event_pic,check_event_video
-from processor import video_process
+from processor import video_process, VideosInDir
 from visualizer import show_box
 
 '''-------------------------------------------------------------'''
@@ -51,6 +51,12 @@ def video_execute(video_path):
 
 #下一步解决当下最大的问题：视频事件逻辑/time先后顺序/叫声重叠等如何解决？能不能给一个「引导方案」？
 
+#文件夹里多个视频循环，每一个新视频都要重置一下track，防止污染
+def videos_folder_execute(folder_path):
+    VideoPathList = VideosInDir(folder_path)
+    for video_path in VideoPathList:
+        detector.ResetTrack()
+        video_execute(video_path)
 
 
 
