@@ -8,19 +8,28 @@ __pycache__/
 # YOLO Output
 runs/
 outputs_/
+!outputs_/.gitkeep
 
 # Model
 yolo11n.pt
 
 # Test images and videos
 images_/
-videos_
+!images_/.gitkeep
+videos_/
+!videos_/.gitkeep
 
 #sound
-sounds_
+sounds_/
+!sounds_/.gitkeep
+
 
 # macOS
 .DS_Store
 
 # PyCharm
 .idea/
+
+#other
+汇总各个文件夹规避上传限制.py
+其他/

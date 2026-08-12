@@ -38,4 +38,3 @@ def check_event_video(animal_name,id):
         else:
             return False
 
-#下一步解决重复出现同一角色不重复bark
