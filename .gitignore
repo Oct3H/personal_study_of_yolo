@@ -7,20 +7,20 @@ __pycache__/
 
 # YOLO Output
 runs/
-outputs_/
+outputs_/*
 !outputs_/.gitkeep
 
 # Model
 yolo11n.pt
 
 # Test images and videos
-images_/
+images_/*
 !images_/.gitkeep
-videos_/
+videos_/*
 !videos_/.gitkeep
 
 #sound
-sounds_/
+sounds_/*
 !sounds_/.gitkeep
 
 
@@ -33,3 +33,5 @@ sounds_/
 #other
 汇总各个文件夹规避上传限制.py
 其他/
+
+#这些文件夹要上传一个空文件夹的话必须结尾/*加上.gitkeep才行
