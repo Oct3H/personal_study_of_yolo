@@ -3,6 +3,7 @@
 yolo_model = "yolo11n.pt"
 yolo_source_pic = "images_/"
 yolo_source_video = "videos_/duc.mp4"
+yolo_source_VF = "videos_"
 
 
 

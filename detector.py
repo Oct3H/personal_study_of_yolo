@@ -12,6 +12,8 @@ def ResetTrack():
 PicModel_ = YOLO(yolo_model)
 ResetTrack()#要想办法避免track污染。。。
 
+#bug check Aug19
+SingleVideoModel_ = YOLO(yolo_model)
 
 
 
@@ -19,6 +21,11 @@ ResetTrack()#要想办法避免track污染。。。
 #pic
 def DetectPic(pic):
     results = PicModel_(pic)
+    return results
+
+#bug check Aug19
+def DetectSingleVideoFrame(frame):
+    results = SingleVideoModel_(frame)
     return results
 
 #video
