@@ -1,4 +1,5 @@
 import time
+from collections import Counter
 
 last_event = {}
 Appeared_NameID_List = []
@@ -16,17 +17,47 @@ def ResetEvent_TwoList():
 '''---------------------------------------'''
 
 class AnimalEvent:
-    def __init__(self,AnimalName,ID):
-        self.name = AnimalName
+    def __init__(self,ID):
         self.id = ID
         self.lasttime = time.time()#仅会在创建时更新一次，之后要靠函数更新
-    def update(self):
+        self.past_ten_frame = []
+        self.name = ''
+
+    def update_time(self):
         self.lasttime = time.time()
 
 
-def FindAnimalEventInList(AnimalName,ID):
+    def update_name(self,NAME):
+        self.name = NAME
+        if len(self.past_ten_frame)<100:
+            self.past_ten_frame.append(NAME)
+        else:
+            del self.past_ten_frame[0]
+            self.past_ten_frame.append(NAME)
+
+
+    def TEN_FRAME_JUDGE(self):
+        first = self.past_ten_frame[0]
+        last = self.past_ten_frame[-1]
+
+        counter = Counter(self.past_ten_frame)
+        most_name, most_count = counter.most_common(1)[0]
+
+        half = len(self.past_ten_frame) / 2
+
+        # 当前类别已经成为多数
+        if most_name == last and most_count >= half:
+            return True
+
+        return False
+
+
+
+
+
+def FindAnimalEventInList(ID):
     for event in AnimalEventList:
-        if event.name == AnimalName and event.id == ID:
+        if event.id == ID:
             return event
     return None
 
@@ -37,6 +68,7 @@ def IfAppeared_NameID_InList(NAME_ID_TUPLE):
         return True
 
 
+'''-------'''
 
 #check event decide whether execute "play sound"
 def check_event_pic(animal_name):
@@ -52,21 +84,35 @@ def check_event_pic(animal_name):
 
 
 
+
+
+
+
+#🆔为核心的重新设计：
 def check_event_video(animal_name,id):
+    #None保护
+    if animal_name is None or id is None:
+        return False
+    #现在时间
     now = time.time()
-    if FindAnimalEventInList(animal_name,id)==None:
-        NewOne = AnimalEvent(animal_name,id)
+
+    #如果全新的跟踪---创建
+    if FindAnimalEventInList(id) == None:
+        NewOne = AnimalEvent(id)
+        NewOne.update_name(animal_name)
         AnimalEventList.append(NewOne)
         Appeared_NameID_List.append((animal_name,id))#添加元组
         return True
     else:
-        ExistEvent = FindAnimalEventInList(animal_name,id)#类似于指针，不是复制出一个新的对象，而是EE就是原本那个对象
-        if now - ExistEvent.lasttime > 2:#这里逻辑重复了   实现：只叫一次，再出现不叫
-            if IfAppeared_NameID_InList((animal_name,id)):            #预留接口： 隔2s去掉if可以再叫
-                return False
-            else:
-                ExistEvent.update()
-                return True
+        ExistEvent = FindAnimalEventInList(id)
+        ExistEvent.update_name(animal_name)
+        if ExistEvent.TEN_FRAME_JUDGE():
+            if now - ExistEvent.lasttime > 2:#这里逻辑重复了   实现：只叫一次，再出现不叫
+                        if IfAppeared_NameID_InList((animal_name,id)):            #预留接口： 隔2s去掉if可以再叫
+                            return False
+                        else:
+                            ExistEvent.update_time()
+                            return True
         else:
             return False
 
@@ -74,6 +120,15 @@ def check_event_video(animal_name,id):
 
 
 
+
+
+
+
+
+
+
+
+'''------------------10帧判定--------------------------'''
 
 
 
@@ -104,7 +159,57 @@ def check_event_video(animal_name,id):
 
 
 
+#老class
+# def __init__(self,AnimalName,ID):
+#     self.name = AnimalName
+#     self.id = ID
+#     self.lasttime = time.time()#仅会在创建时更新一次，之后要靠函数更新
+#     self.past_ten_frame = []
 
+# def TEN_FRAME_JUDGE(self):
+#     frist = self.past_ten_frame[0]
+#     last = self.past_ten_frame[len(self.past_ten_frame) - 1]
+#
+#     half_of_list = len(self.past_ten_frame) / 2
+#     quarter_of_list = len(self.past_ten_frame) / 4
+#
+#     counter = Counter(self.past_ten_frame)
+#     items_appear_times = counter.most_common()  # mostcommon返回是list形式
+#     if items_appear_times[0][0] == frist and items_appear_times[0][1] >= half_of_list:
+#         return False
+#     elif frist == last and items_appear_times[0][1] >= quarter_of_list:
+#         return False
+#     # 最新加的出现最多次数
+#     elif items_appear_times[0][0] == last and items_appear_times[0][1] >= half_of_list:
+#         return True
+#     else:
+#         return False
+
+
+
+
+# def check_event_video(animal_name,id):
+#
+#     #None保护
+#     if animal_name is None or id is None:
+#         return False
+#
+#     now = time.time()
+#     if FindAnimalEventInList(animal_name,id)==None:
+#         NewOne = AnimalEvent(animal_name,id)
+#         AnimalEventList.append(NewOne)
+#         Appeared_NameID_List.append((animal_name,id))#添加元组
+#         return True
+#     else:
+#         ExistEvent = FindAnimalEventInList(animal_name,id)#类似于指针，不是复制出一个新的对象，而是EE就是原本那个对象
+#         if now - ExistEvent.lasttime > 2:#这里逻辑重复了   实现：只叫一次，再出现不叫
+#             if IfAppeared_NameID_InList((animal_name,id)):            #预留接口： 隔2s去掉if可以再叫
+#                 return False
+#             else:
+#                 ExistEvent.update()
+#                 return True
+#         else:
+#             return False
 
 
 #bug check Aug19

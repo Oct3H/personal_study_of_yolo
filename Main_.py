@@ -46,6 +46,14 @@ def videos_folder_execute(folder_path):
 
 
 
+
+
+
+
+
+
+
+
 #bug check Aug19
 def Single_video_execute(video_path):
     video_generator = video_process(video_path)
@@ -97,7 +105,8 @@ videos_folder_execute(yolo_source_VF)
 #✅下一步解决当下最大的问题：视频事件逻辑/time先后顺序/叫声重叠等如何解决？能不能给一个「引导方案」？
 #✅两个bug：1.不显示可视化框  2.同一个动物重复触发bark（需要利用编号，同一个出现一次只叫一下）✅
 #✅疑问：video文件夹输入多个视频可以吗🤔
-
+#✅bug： 1.track id没分配导致id返回值为None  2.在event里设计「10 帧投票 + conf比较」
+#下一步加上conf比较，和「10帧投票」结合😠
 
 
 #⚠️id是给“被追踪实例”的编号，并非"新的事物第一次出现就是id=1"(ID 通常不会因为类别不同而重新从 1 开始)

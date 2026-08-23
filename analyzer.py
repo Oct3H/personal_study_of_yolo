@@ -13,6 +13,11 @@ def AnalyzeResultsToItemsNamesList_pic(A_Results):
 def AnalyzeResultsToItemsNamesList_video(A_Results):
     item_name_id_DicList =[]
     for pic in A_Results:#results出自model.track的话，boxes里多加了id
+
+        #防止没识别出id---没识别，直接跳过下面的小for，进入下一个大for循环
+        if pic.boxes.id is None:
+            continue
+
         for i in range(len(pic.boxes)):
             #利用字典保存ID name等多个信息--------nice method！！！✅
             obj = {

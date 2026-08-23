@@ -31,7 +31,7 @@ def DetectSingleVideoFrame(frame):
 #video
 def DetectFrame(frame):
     #视频识别需要追踪
-    results = VideoModel_.track(frame,persist=True)#persist=True: 标识track任务持续存在，不要每帧都重置id
+    results = VideoModel_.track(frame,persist=True,conf=0.35)#persist=True: 标识track任务持续存在，不要每帧都重置id
     return results
 
 
