@@ -33,7 +33,8 @@ def video_execute(video_path):
         for obj in item_NameID_list:
             name = obj["name"]
             id = obj["id"]
-            if check_event_video(name,id):
+            conf = obj["conf"]
+            if check_event_video(name,id,conf):
                 player.play_sound_video(name)
 
 

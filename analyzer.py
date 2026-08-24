@@ -22,7 +22,8 @@ def AnalyzeResultsToItemsNamesList_video(A_Results):
             #利用字典保存ID name等多个信息--------nice method！！！✅
             obj = {
                 "name": pic.names[int(pic.boxes.cls[i])],#cls里的序号是「n.」，属于float；而names里的dict头是int，因此需要int化
-                "id"  : pic.boxes.id[i]
+                "id"  : int(pic.boxes.id[i]),
+                "conf": float(pic.boxes.conf[i])
             }
             item_name_id_DicList.append(obj)
     return item_name_id_DicList

@@ -27,29 +27,44 @@ class AnimalEvent:
         self.lasttime = time.time()
 
 
-    def update_name(self,NAME):
+    def Update(self,NAME,CONF):
         self.name = NAME
-        if len(self.past_ten_frame)<100:
-            self.past_ten_frame.append(NAME)
+        if len(self.past_ten_frame)<50:
+            self.past_ten_frame.append((NAME,CONF))
         else:
             del self.past_ten_frame[0]
-            self.past_ten_frame.append(NAME)
+            self.past_ten_frame.append((NAME,CONF))
 
 
     def TEN_FRAME_JUDGE(self):
-        first = self.past_ten_frame[0]
-        last = self.past_ten_frame[-1]
+        frist = self.past_ten_frame[0][0]
+        last  = self.past_ten_frame[-1][0]
 
-        counter = Counter(self.past_ten_frame)
-        most_name, most_count = counter.most_common(1)[0]
+        score = {}
 
-        half = len(self.past_ten_frame) / 2
+        for name, conf in self.past_ten_frame:
+            if name not in score:
+                score[name] = [0,0]#rate & times
 
-        # 当前类别已经成为多数
-        if most_name == last and most_count >= half:
-            return True
+            score[name][0] += conf
+            score[name][1] += 1
+        #按照平均值算最大的
+        best_name = max(score, key=lambda name: score[name][0]/score[name][1])
+        best_score = score[best_name][0]/score[best_name][1]
 
-        return False
+        if best_score<=0.5:
+            return False
+        else:
+            if score[best_name][1]<len(self.past_ten_frame)/2:
+                return False
+            else:
+                if best_name == last:
+                    return True
+                else:
+                    return False
+
+
+
 
 
 
@@ -89,7 +104,7 @@ def check_event_pic(animal_name):
 
 
 #🆔为核心的重新设计：
-def check_event_video(animal_name,id):
+def check_event_video(animal_name,id,conf):
     #None保护
     if animal_name is None or id is None:
         return False
@@ -99,13 +114,13 @@ def check_event_video(animal_name,id):
     #如果全新的跟踪---创建
     if FindAnimalEventInList(id) == None:
         NewOne = AnimalEvent(id)
-        NewOne.update_name(animal_name)
+        NewOne.Update(animal_name,conf)
         AnimalEventList.append(NewOne)
         Appeared_NameID_List.append((animal_name,id))#添加元组
         return True
     else:
         ExistEvent = FindAnimalEventInList(id)
-        ExistEvent.update_name(animal_name)
+        ExistEvent.Update(animal_name,conf)
         if ExistEvent.TEN_FRAME_JUDGE():
             if now - ExistEvent.lasttime > 2:#这里逻辑重复了   实现：只叫一次，再出现不叫
                         if IfAppeared_NameID_InList((animal_name,id)):            #预留接口： 隔2s去掉if可以再叫
@@ -211,6 +226,21 @@ def check_event_video(animal_name,id):
 #         else:
 #             return False
 
+
+# def TEN_FRAME_JUDGE(self):
+#     first = self.past_ten_frame[0]
+#     last = self.past_ten_frame[-1]
+#
+#     counter = Counter(self.past_ten_frame)
+#     most_name, most_count = counter.most_common(1)[0]
+#
+#     half = len(self.past_ten_frame) / 2
+#
+#     # 当前类别已经成为多数
+#     if most_name == last and most_count >= half:
+#         return True
+#
+#     return False
 
 #bug check Aug19
 def check_event_single_video(animal_name,id):

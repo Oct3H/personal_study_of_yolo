@@ -6,15 +6,47 @@ import cv2
 
 def show_box(frame,results):#利用「双传参」引入frame图片变量
     #修改图片(图片加框)
-    for box in results[0].boxes.xyxy:
-        x1,y1,x2,y2 = box
-        cv2.rectangle(
-            frame,#图片变量
-            (int(x1),int(y1)),
-            (int(x2),int(y2)),
-            (0,255,0),#colour
-            2#线宽
-        )
+    boxes = results[0].boxes
+    names = results[0].names
+
+    # Tracking ID 可能为 None
+    if boxes.id is not None:
+
+        for i in range(len(boxes)):
+            # box
+            x1, y1, x2, y2 = boxes.xyxy[i]
+
+            # class
+            class_id = int(boxes.cls[i])
+            name = names[class_id]
+
+            # tracking ID
+            track_id = int(boxes.id[i])
+
+            # confidence
+            conf = float(boxes.conf[i])
+
+            # 画框
+            cv2.rectangle(
+                frame,
+                (int(x1), int(y1)),
+                (int(x2), int(y2)),
+                (0, 255, 0),
+                2
+            )
+
+            # 显示文字
+            label = f"{name} ID:{track_id} conf:{conf:.2f}"
+
+            cv2.putText(
+                frame,
+                label,
+                (int(x1), int(y1) - 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.6,
+                (0, 255, 0),
+                2
+            )
 
     # 告诉「窗口」，要显示(这个被修改后的)图片
     cv2.imshow(
