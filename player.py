@@ -24,9 +24,3 @@ def play_sound_pic(name):
     else:
         print("sorry,find an unknown item")
         pygame.time.wait(1500)
-
-
-
-
-
-

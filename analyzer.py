@@ -1,7 +1,3 @@
-#   Analyze the object(results object) has how many pic->animal_object and store it
-#into a LIST
-#(analyze what in the pics/pic/frame
-
 def AnalyzeResultsToItemsNamesList_pic(A_Results):
     item_name_list =[]
     for pic in A_Results:
@@ -27,40 +23,3 @@ def AnalyzeResultsToItemsNamesList_video(A_Results):
             }
             item_name_id_DicList.append(obj)
     return item_name_id_DicList
-
-
-
-
-
-
-'''
-            boxes
-             |
-             ├── xyxy
-             │     [
-             │       box0坐标,
-             │       box1坐标,
-             │       box2坐标
-             │     ]
-             │
-             ├── cls
-             │     [
-             │       box0类别,
-             │       box1类别,
-             │       box2类别
-             │     ]
-             │
-             ├── conf
-             │     [
-             │       box0置信度,
-             │       box1置信度,
-             │       box2置信度
-             │     ]
-             │
-             └── id
-                   [
-                     box0 ID,
-                     box1 ID,
-                     box2 ID
-                   ]
-'''
